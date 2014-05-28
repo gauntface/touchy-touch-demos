@@ -1,0 +1,233 @@
+<html>
+
+	<head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Touchy Touch Samples | Pagination</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+        
+        <link rel="stylesheet" href="/css/toggle-switch.css">
+
+        <style>
+
+        html, body {
+        	width: 100%;
+        	height: 100%;
+
+        	margin: 0;
+        	padding: 0;
+        }
+
+        body {
+        	display: flex;
+
+        	flex-direction: column;
+        }
+
+    	.pagination-container {
+    		display: flex;
+
+    		width: 100%;
+
+    		flex-direction: row;
+
+    		flex: 1;
+
+    		overflow: auto;
+    	}
+
+    	.pagination-container > .page {
+    		width: 100%;
+
+    		flex: 1 0 100%;
+
+    		overflow: auto;
+    	}
+
+    	<!-- Touch Action Behaviour -->
+    	.pagination-container.touch-action-pan-y > .page {
+    		touch-action: pan-y;
+    	}
+
+        </style>
+        
+    </head>
+
+    <body>
+
+    <h1>Pagination</h1>
+    
+    <p>Add Touch Events</p>
+    <span class="toggle-switch">
+        <input id="touch-events" class="checkbox" type="checkbox">
+        <label for="touch-events" class="checkbox-label"></label>
+    </span>
+
+	<p>Add touch-action</p>
+	<span class="toggle-switch">
+        <input id="touch-action" class="checkbox" type="checkbox">
+        <label for="touch-action" class="checkbox-label"></label>
+    </span>
+
+    <div class="pagination-container">
+
+    <section class="page">
+    <h2>Page 1</h2>
+
+    <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+
+    <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+
+    <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+    </section>
+
+    <section class="page">
+    <h2>Page 2</h2>
+
+    <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+    </section>
+
+    <section class="page">
+    <h2>Page 3</h2>
+
+    <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+    
+    <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+    
+    <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+    
+    <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+
+    <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+    </section>
+
+    <section class="page">
+
+    <h2>Page 4</h2>
+
+    <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+
+    <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+    </section>
+
+    </div>
+
+    <script>
+    var paginationContainer = document.querySelector('.pagination-container');
+    var touchEventsCheckbox = document.querySelector('#touch-events');
+    var touchActionCheckbox = document.querySelector('#touch-action');
+
+    var paginationContainerWidth = paginationContainer.offsetWidth;
+
+    var touchEventsFunctions = {
+    	touchstart: handleStartGesture,
+    	touchmove: handleMoveGesture,
+    	touchend: handleEndGesture,
+    	touchcancel: handleEndGesture
+    };
+
+    touchEventsCheckbox.addEventListener('change', function(evt) {
+    	if(evt.target.checked) {
+    		paginationContainer.addEventListener('touchstart', touchEventsFunctions.touchstart, true);
+    		paginationContainer.addEventListener('touchmove', touchEventsFunctions.touchmove, true);
+    		paginationContainer.addEventListener('touchend', touchEventsFunctions.touchend, true);
+    		paginationContainer.addEventListener('touchcancel', touchEventsFunctions.touchcancel, true);
+    	} else {
+    		paginationContainer.removeEventListener('touchstart', touchEventsFunctions.touchstart, true);
+    		paginationContainer.removeEventListener('touchmove', touchEventsFunctions.touchmove, true);
+    		paginationContainer.removeEventListener('touchend', touchEventsFunctions.touchend, true);
+    		paginationContainer.removeEventListener('touchcancel', touchEventsFunctions.touchcancel, true);
+    	}
+    }, true);
+
+    touchActionCheckbox.addEventListener('change', function(evt) {
+    	if(evt.target.checked) {
+    		paginationContainer.classList.add('touch-action-pan-y');
+    	} else {
+    		paginationContainer.classList.remove('touch-action-pan-y');
+    	}
+    }, true);
+
+    var startTouch = {};
+    var previousTouch = {};
+    var directionLocked = false;
+    var scrollingHorizontally = false;
+    var currentIndex = 0;
+
+    function handleStartGesture(evt) {
+    	//evt.preventDefault();
+    	console.log('handleStartGesture');
+
+    	startTouch = getGesturePointFromEvent(evt);
+    	directionLocked = false;
+    	scrollingHorizontally = false;
+    }
+
+    function handleMoveGesture(evt) {
+    	//evt.preventDefault();
+    	console.log('handleMoveGesture');
+
+    	var currentTouch = getGesturePointFromEvent(evt);
+    	if(!directionLocked) {
+    		// Determine direction
+    		var changeInX = Math.abs(startTouch.x - currentTouch.x);
+    		var changeInY = Math.abs(startTouch.y - currentTouch.y);
+
+    		scrollingHorizontally = changeInX > changeInY;
+    		if(!scrollingHorizontally) {
+    			console.log('Scrolling vertically');
+    			snapToIndex(currentIndex);
+    		}
+
+    		directionLocked = true;
+    	}
+
+    	previousTouch = currentTouch;
+    }
+
+    function handleEndGesture(evt) {
+    	//evt.preventDefault();
+    	console.log('handleEndGesture');
+    	if(scrollingHorizontally) {
+    		snapToNearestIndex();
+    	}
+    }
+
+     function getGesturePointFromEvent(evt) {
+        var point = {};
+
+        if(evt.targetTouches) {
+          // Prefer Touch Events
+          point.x = evt.targetTouches[0].clientX;
+          point.y = evt.targetTouches[0].clientY;
+        } else {
+          // Either Mouse event or Pointer Event
+          point.x = evt.clientX;
+          point.y = evt.clientY;
+        }
+
+        return point;
+      }
+
+      function snapToNearestIndex() {
+      	var currentScroll = paginationContainer.scrollLeft;
+      	var remainder = currentScroll % paginationContainerWidth;
+      	var index = (currentScroll - remainder) / paginationContainerWidth;
+      	if(remainder > (paginationContainerWidth / 2)) {
+      		index++;
+      	}
+
+      	snapToIndex(index);
+      }
+
+      function snapToIndex(index) {
+      	var scrollOffset = paginationContainerWidth * index;
+      	paginationContainer.scrollLeft = scrollOffset;
+      }
+
+    </script>
+
+    </body>
+
+</html>
