@@ -114,6 +114,19 @@
     </div>
 
     <script>
+        // Hugs and Kisses for P.Irish: http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
+        window.requestAnimFrame = (function(){
+            return  window.requestAnimationFrame       ||
+                window.webkitRequestAnimationFrame ||
+                window.mozRequestAnimationFrame    ||
+                function( callback ){
+                    window.setTimeout(callback, 1000 / 60);
+                };
+        })();
+
+        var SCROLL_STEP_SIZE = 0.4;
+        var SLOP_VALUE = 100;
+
     var paginationContainer = document.querySelector('.pagination-container');
     var touchEventsCheckbox = document.querySelector('#touch-events');
     var touchActionCheckbox = document.querySelector('#touch-action');
@@ -154,20 +167,26 @@
     var directionLocked = false;
     var scrollingHorizontally = false;
     var currentIndex = 0;
+    var initScrollLeft;
+    var inGesture = false;
+    var isAnimating = false;
+    var targetScrollPosition = 0;
 
     function handleStartGesture(evt) {
-    	//evt.preventDefault();
-    	console.log('handleStartGesture');
-
     	startTouch = getGesturePointFromEvent(evt);
     	directionLocked = false;
     	scrollingHorizontally = false;
+        inGesture = true;
+        initScrollLeft = paginationContainer.scrollLeft;
+        targetScrollPosition = initScrollLeft;
+
+        if(isAnimating == false) {
+            isAnimating = true;
+            window.requestAnimFrame(onAnimationFrame);
+        }
     }
 
     function handleMoveGesture(evt) {
-    	//evt.preventDefault();
-    	console.log('handleMoveGesture');
-
     	var currentTouch = getGesturePointFromEvent(evt);
     	if(!directionLocked) {
     		// Determine direction
@@ -176,22 +195,60 @@
 
     		scrollingHorizontally = changeInX > changeInY;
     		if(!scrollingHorizontally) {
-    			console.log('Scrolling vertically');
+                // Scrolling Vertically
     			snapToIndex(currentIndex);
-    		}
+    		} else {
+                evt.preventDefault();
+            }
 
     		directionLocked = true;
     	}
+
+        if(scrollingHorizontally) {
+            var changeInX = startTouch.x - currentTouch.x;
+            targetScrollPosition = initScrollLeft + changeInX;
+        }
 
     	previousTouch = currentTouch;
     }
 
     function handleEndGesture(evt) {
-    	//evt.preventDefault();
-    	console.log('handleEndGesture');
+        inGesture = false;
+
     	if(scrollingHorizontally) {
-    		snapToNearestIndex();
+            evt.preventDefault();
+
+            var changeInX = startTouch.x - previousTouch.x;
+            if(Math.abs(changeInX) > SLOP_VALUE) {
+                var newIndex = currentIndex;
+                if(changeInX > 0) {
+                    newIndex++;
+                } else {
+                    newIndex--;
+                }
+                snapToIndex(newIndex);
+            } else {
+                snapToNearestIndex();
+            }
     	}
+    }
+
+    function onAnimationFrame() {
+        var currentScrollLeft = paginationContainer.scrollLeft;
+        if(((currentScrollLeft === targetScrollPosition || !isAnimating) && !inGesture) || (currentScrollLeft === targetScrollPosition && !scrollingHorizontally && directionLocked)) {
+          isAnimating = false;
+          return;
+        }
+        
+        var scrollOffset = Math.floor((targetScrollPosition-currentScrollLeft) * SCROLL_STEP_SIZE);
+
+        if(inGesture || Math.abs(scrollOffset) < 1) {
+          paginationContainer.scrollLeft = targetScrollPosition;
+        } else {
+          paginationContainer.scrollLeft = scrollOffset + currentScrollLeft;
+        }
+
+        window.requestAnimFrame(onAnimationFrame);
     }
 
      function getGesturePointFromEvent(evt) {
@@ -222,8 +279,11 @@
       }
 
       function snapToIndex(index) {
+        currentIndex = index;
+
       	var scrollOffset = paginationContainerWidth * index;
-      	paginationContainer.scrollLeft = scrollOffset;
+      	targetScrollPosition = scrollOffset;
+        //paginationContainer.scrollLeft = scrollOffset;
       }
 
     </script>
