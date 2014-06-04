@@ -1,0 +1,89 @@
+<html>
+
+	<head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Touchy Touch Samples | Pagination</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+        
+        <link rel="stylesheet" href="/css/toggle-switch.css">
+
+        <style>
+
+        html, body {
+        	width: 100%;
+        	height: 100%;
+
+        	margin: 0;
+        	padding: 0;
+        }
+
+        body {
+        	display: flex;
+
+        	flex-direction: column;
+        }
+
+        section {
+
+        }
+
+    	/* Touch Action Behaviour */
+    	section.touch-action-enabled {
+    		-ms-touch-action: pan-y pan-x;
+            touch-action: pan-y pan-x;
+    	}
+
+        </style>
+        
+    </head>
+
+    <body>
+
+    <h1>Disable Pinch to Zoom</h1>
+    
+	<p>Add touch-action</p>
+	<span class="toggle-switch">
+        <input id="touch-action" class="checkbox" type="checkbox">
+        <label for="touch-action" class="checkbox-label"></label>
+    </span>
+
+    <section>
+    <h2>Page 1</h2>
+
+    <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+
+    <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+
+    <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+    </section>
+
+    <script>
+        // Hugs and Kisses for P.Irish: http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
+        window.requestAnimFrame = (function(){
+            return  window.requestAnimationFrame       ||
+                window.webkitRequestAnimationFrame ||
+                window.mozRequestAnimationFrame    ||
+                function( callback ){
+                    window.setTimeout(callback, 1000 / 60);
+                };
+        })();
+
+        var section = document.querySelector('section');
+        var touchActionCheckbox = document.querySelector('#touch-action');
+
+    touchActionCheckbox.addEventListener('change', function(evt) {
+    	if(evt.target.checked) {
+    		section.classList.add('touch-action-enabled');
+    	} else {
+    		section.classList.remove('touch-action-enabled');
+    	}
+    }, true);
+
+
+    </script>
+
+    </body>
+
+</html>
